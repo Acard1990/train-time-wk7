@@ -1,0 +1,23 @@
+*  {
+  background: #838E83;
+  color: black;
+}
+
+body {
+  background: #838E83;
+  font-family: 'Jura', sans-serif;
+  color: black;
+}
+
+.jumbotron {
+  background: #C9CEBD;
+}
+
+p {
+  background: #C9CEBD;
+}
+
+h1 {
+  background: #C9CEBD;
+  font-family: 'Audiowide', cursive;
+}
