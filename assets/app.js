@@ -23,6 +23,9 @@ $("#submit-button").on("click", function(event) {
   destination = $("#destination").val().trim();
   firstTrain = $("#firstTrain").val().trim();
   frequency = $("#frequency").val().trim();
+  var frequency2 = parseInt(frequency);
+  console.log(typeof frequency2);//object
+
 
   // Code for handling the push
   database.ref().push({
@@ -37,6 +40,7 @@ $("#submit-button").on("click", function(event) {
   $("#firstTrain").val("");
   $("#frequency").val("");
 });
+
 
 database.ref().orderByChild("dateAdded").on("child_added", function(snapshot) {
 
@@ -69,6 +73,8 @@ database.ref().orderByChild("dateAdded").on("child_added", function(snapshot) {
   //diffTime.toString();
   console.log("DIFFERENCE IN TIME: " + diffTime);
   console.log(typeof diffTime); // wrong believe issue is with type of value caused by .diff
+  var diffTime2 = parseInt(diffTime);
+  console.log(typeof diffTime2);// states number still
 
   // Time apart (remainder)
   var tRemainder = diffTime % frequency;
