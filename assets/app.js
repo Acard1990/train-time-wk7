@@ -44,33 +44,66 @@ database.ref().orderByChild("dateAdded").on("child_added", function(snapshot) {
   //==============================================================================
   //below is where i am having issues.
   //==============================================================================
-  trainDiff = moment().diff(moment.unix(sv.time), "minutes");
-
-  // get the remainder of time by using 'moderator' with the frequency & time difference, store in var
-  trainRemainder = trainDiff % sv.frequency;
-
-  // subtract the remainder from the frequency, store in var
-  minutesTillArrival = sv.frequency - trainRemainder;
-
-  // add minutesTillArrival to now, to find next train & convert to standard time format
-  nextTrainTime = moment().add(minutesTillArrival, "mm").format("hh:mm");
+  // trainDiff = moment().diff(moment.unix(sv.time), "minutes");
+  //
+  // trainRemainder = trainDiff % sv.frequency;
+  //
+  // minutesTillArrival = sv.frequency - trainRemainder;
+  //
+  // nextTrainTime = moment().add(minutesTillArrival, "mm").format("hh:mm");
   //==============================================================================
-  //above is where im having issues.
+
+  // First Time (pushed back 1 year to make sure it comes before current time)
+  var firstTimeConverted = moment(firstTrain, "hh:mm").subtract(1, "years");
+  console.log(firstTimeConverted);
+  console.log(typeof firstTimeConverted); //correct
+
+  // Current Time
+  var currentTime = moment();
+  //var curTime = currentTime.toISOString();
+  console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+  console.log(typeof currentTime); // correct
+
+  // Difference between the times
+  var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+  //diffTime.toString();
+  console.log("DIFFERENCE IN TIME: " + diffTime);
+  console.log(typeof diffTime); // wrong believe issue is with type of value caused by .diff
+
+  // Time apart (remainder)
+  var tRemainder = diffTime % frequency;
+  console.log(tRemainder);
+  console.log(typeof tRemainder); //wrong probably because of diffTime var
+
+  // Minute Until Train
+  var tMinutesTillTrain = frequency - tRemainder;
+  console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+  console.log(typeof tMinutesTillTrain); // wrong probably because of tRemainder
+  // Next Train
+  var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+  console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+  console.log(typeof nextTrain); // correct
   //==============================================================================
-  console.log(sv.trainName);
-  console.log(sv.destination);
-  console.log(sv.firstTrain);
-  console.log(sv.frequency);
-  console.log(minutesTillArrival);
-  console.log(nextTrainTime);
+  // console.log(sv.trainName);
+  // console.log(sv.destination);
+  // console.log(sv.firstTrain);
+  // console.log(sv.frequency);
+  // console.log(trainDiff);
+  // console.log(trainRemainder);
+  // console.log(nextTrainTime);
+  // console.log(minutesTillArrival);
+  // console.log(typeof trainDiff); // number
+  // console.log(typeof trainRemainder); // number
+  // console.log(typeof nextTrainTime); //string, displays properly
+  // console.log(typeof minutesTillArrival); // number
 
 
   var tdtrainName = $('<td>').text(sv.trainName);
   var tddestination = $('<td>').text(sv.destination);
   var tdfirstTrain = $('<td>').text(sv.firstTrain);
   var tdfrequency = $('<td>').text(sv.frequency);
-  var tdnextArrival = $('<td>').text(nextTrainTime);
-  var tdminutesAway = $('<td>').text(minutesTillArrival);
+  var tdnextArrival = $('<td>').text(nextTrain);
+  var tdminutesAway = $('<td>').text(tMinutesTillTrain);
   var tr = $('<tr>');
 
 
